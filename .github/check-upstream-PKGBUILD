@@ -1,0 +1,21 @@
+#!/bin/bash
+
+set -o nounset -o pipefail -o errexit
+
+SCRIPT_DIR=$(readlink -f "$0" | xargs dirname)
+ROOT=$(readlink -f "$SCRIPT_DIR/..")
+LOCAL="$ROOT/PKGBUILD.upstream"
+
+TMP=$(mktemp -d)
+trap 'rm -rf $TMP' EXIT
+
+NEW="$TMP/PKGBUILD.upstream.new"
+
+URL="https://gitlab.archlinux.org/archlinux/packaging/packages/nodejs/-/raw/main/PKGBUILD"
+echo 1>&2 "fetching: $URL"
+wget -q -O"$NEW" "$URL"
+
+if ! diff "$LOCAL" "$NEW"; then
+    cp -v "$NEW" "$ROOT/PKGBUILD.upstream.new"
+    exit 1
+fi

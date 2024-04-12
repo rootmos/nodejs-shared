@@ -1,0 +1,66 @@
+name: Build package
+on:
+  push:
+    branches:
+    - 'main'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: archlinux:latest
+    env:
+      UNPRIVILEGED: arch
+    steps:
+    - name: Install minimal dependencies
+      run: pacman -Suy --noconfirm base-devel
+
+    - name: Check out repository code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Create an unprivileged user
+      run: |
+        useradd -m $UNPRIVILEGED
+        chown -R $UNPRIVILEGED:$UNPRIVILEGED .
+        tee -a /etc/sudoers.d/$UNPRIVILEGED <<< "$UNPRIVILEGED ALL = NOPASSWD: $(which pacman)"
+
+    - name: Build package
+      run: |
+        sudo -u $UNPRIVILEGED makepkg --syncdeps --noconfirm --config=.github/makepkg.conf "MAKEFLAGS=-j$(nproc)"
+
+    - name: Keep package
+      uses: actions/upload-artifact@v4
+      with:
+        name: pkg.${{github.sha}}
+        retention-days: 7
+        path: "*.pkg.tar.zst"
+
+  release:
+    runs-on: ubuntu-latest
+    needs: build
+    permissions:
+      contents: write
+    steps:
+    - name: Check out repository code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Figure out release name
+      run: |
+        . PKGBUILD
+        echo "RELEASE_NAME=v$pkgver-$pkgrel" | tee -a "$GITHUB_ENV"
+
+    - name: Download package
+      uses: actions/download-artifact@v4
+      with:
+        name: pkg.${{github.sha}}
+
+    - name: Create release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        find -name "*.pkg.tar.zst" \
+          | xargs gh release create "$RELEASE_NAME"
