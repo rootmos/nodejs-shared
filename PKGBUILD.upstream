@@ -8,8 +8,8 @@
 # Contributor: TIanyi Cui <tianyicui@gmail.com>
 
 pkgname=nodejs
-pkgver=21.7.2
-_commit=d4a1d050c0b22f0455bb6eb53eca8f7e7da937d2
+pkgver=21.7.3
+_commit=97297e91febe3b49b50b22f0bea8ed21189a9e53
 pkgrel=1
 pkgdesc='Evented I/O for V8 javascript'
 arch=('x86_64')
@@ -20,7 +20,7 @@ depends=('icu' 'libuv' 'libnghttp2' 'libnghttp3' 'libngtcp2' 'openssl' 'zlib' 'b
 makedepends=('git' 'python' 'procps-ng')
 optdepends=('npm: nodejs package manager')
 source=("git+https://github.com/nodejs/node.git#commit=$_commit")
-sha512sums=('488d9f320dc183d27bd6ec770d9070da39cebe135a2582cbb44c4577d68addea3ffe15548ce17e02004e0ecd54bd55c7e7e5b2fbc8b3dac61fbbdad29df30cef')
+sha512sums=('0ad01c39b5e04a00782ce4ae7540d1b72014b7dfab38b9a783bb5dcf58a715d62ea8d73b1a269323dc778d46cf4cee26af828d93e64c05adb88f5ad6ef3ef38e')
 
 build() {
   cd node
