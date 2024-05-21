@@ -28,7 +28,7 @@ jobs:
 
     - name: Build package
       run: |
-        sudo -u $UNPRIVILEGED makepkg --syncdeps --noconfirm --config=.github/makepkg.conf "MAKEFLAGS=-j$(nproc)"
+        sudo -u $UNPRIVILEGED makepkg --syncdeps --noconfirm --skippgpcheck --config=.github/makepkg.conf "MAKEFLAGS=-j$(nproc)"
 
     - name: Keep package
       uses: actions/upload-artifact@v4
