@@ -1,4 +1,5 @@
 # Maintainer: Felix Yan <felixonmars@archlinux.org>
+# Maintainer: Daniel M. Capella <polyzen@archlinux.org>
 # Contributor  Bartłomiej Piotrowski <bpiotrowski@archlinux.org>
 # Contributor: Thomas Dziedzic < gostrc at gmail >
 # Contributor: James Campos <james.r.campos@gmail.com>
@@ -8,7 +9,7 @@
 # Contributor: TIanyi Cui <tianyicui@gmail.com>
 
 pkgname=nodejs
-pkgver=22.2.0
+pkgver=22.3.0
 pkgrel=1
 pkgdesc='Evented I/O for V8 javascript'
 arch=('x86_64')
@@ -19,8 +20,11 @@ depends=('icu' 'libuv' 'libnghttp2' 'libnghttp3' 'libngtcp2' 'openssl' 'zlib' 'b
 makedepends=('git' 'python' 'procps-ng')
 optdepends=('npm: nodejs package manager')
 source=("git+https://github.com/nodejs/node.git#tag=v$pkgver?signed")
-sha512sums=('9603c736e5f0fb976507413ecec5d3ab5b62fb7eec53635a7a376c2c9b41cc89ab3830a61b6b0f923aa7c62dff7b29a7150000d7db85c43c7e286a42c8beb408')
-validpgpkeys=('8FCCA13FEF1D0C2E91008E09770F7A9A5AE15600') # Michaël Zasso (Targos) <targos@protonmail.com>
+sha512sums=('09f715bef47354988a1eff412ff03e4e4b7e4171afab0bf57116fb04a0ef66d696f394dee3a426e89eb6a89eacb6bcf917b3f9277ef7d3efc0ce420f475658ac')
+validpgpkeys=(
+  '8FCCA13FEF1D0C2E91008E09770F7A9A5AE15600' # Michaël Zasso (Targos) <targos@protonmail.com>
+  '890C08DB8579162FEE0DF9DB8BEAB4DFCF555EF4' # RafaelGSS <rafael.nunu@hotmail.com>
+)
 
 build() {
   cd node
