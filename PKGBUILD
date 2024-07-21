@@ -1,20 +1,35 @@
 pkgname=nodejs-shared
 provides=('nodejs')
-pkgver=22.3.0
+pkgver=22.5.1
 pkgrel=1
 pkgdesc='Evented I/O for V8 javascript'
 arch=('x86_64')
 url='https://nodejs.org/'
 license=('MIT')
-options=(!lto)
-depends=('icu' 'libuv' 'libnghttp2' 'libnghttp3' 'libngtcp2' 'openssl' 'zlib' 'brotli' 'c-ares') # 'http-parser' 'v8')
-makedepends=('git' 'python' 'procps-ng')
+depends=(
+  'brotli'
+  'c-ares'
+  'icu'
+  'libnghttp2'
+  'libnghttp3'
+  'libngtcp2'
+  'libuv'
+  'openssl'
+  'zlib'
+) # 'http-parser' 'v8')
+makedepends=(
+  'git'
+  'procps-ng'
+  'python'
+)
 optdepends=('npm: nodejs package manager')
+options=(!lto)
 source=("git+https://github.com/nodejs/node.git#tag=v$pkgver?signed")
-sha512sums=('09f715bef47354988a1eff412ff03e4e4b7e4171afab0bf57116fb04a0ef66d696f394dee3a426e89eb6a89eacb6bcf917b3f9277ef7d3efc0ce420f475658ac')
+sha512sums=('83cba0ef3d32ad765cedca0b722e65ae822a118e3ecd6e9e14059d503b0a83db52a6ec09a08340d1378d94417c628ec61b75fd95f9d381c058ca0c6ddf3dc3da')
 validpgpkeys=(
   '8FCCA13FEF1D0C2E91008E09770F7A9A5AE15600' # Michaël Zasso (Targos) <targos@protonmail.com>
   '890C08DB8579162FEE0DF9DB8BEAB4DFCF555EF4' # RafaelGSS <rafael.nunu@hotmail.com>
+  'C82FA3AE1CBEDC6BE46B9360C43CEC45C17AB93C' # Richard Lau <rlau@redhat.com>
 )
 
 build() {
