@@ -1,6 +1,6 @@
 pkgname=nodejs-shared
 provides=('nodejs')
-pkgver=22.9.0
+pkgver=23.0.0
 pkgrel=1
 pkgdesc='Evented I/O for V8 javascript'
 arch=('x86_64')
@@ -25,11 +25,12 @@ makedepends=(
 optdepends=('npm: nodejs package manager')
 options=(!lto)
 source=("git+https://github.com/nodejs/node.git#tag=v$pkgver?signed")
-sha512sums=('59f6cb03385483bc9c0fb09f308d634e5b1235e712a2ac90da3b63617462e87990f9f09aeffd6068f467cf4595f71e4df77f1230f3710e158a7c92c9151bec01')
+sha512sums=('07dea3c635abf73d8551c9d8b026513c4bb25ac6db30ae3e62099f96a7e76548d41636a344db534c33eec77e8ea7cb7835abac9c88bdf8c08c774a28b104d2b7')
 validpgpkeys=(
   '8FCCA13FEF1D0C2E91008E09770F7A9A5AE15600' # Michaël Zasso (Targos) <targos@protonmail.com>
   '890C08DB8579162FEE0DF9DB8BEAB4DFCF555EF4' # RafaelGSS <rafael.nunu@hotmail.com>
   'C82FA3AE1CBEDC6BE46B9360C43CEC45C17AB93C' # Richard Lau <rlau@redhat.com>
+  'C0D6248439F1D5604AAFFB4021D900FFDB233756' # Antoine du Hamel <duhamelantoine1995@gmail.com>
 )
 
 build() {
