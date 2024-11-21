@@ -9,7 +9,7 @@
 # Contributor: TIanyi Cui <tianyicui@gmail.com>
 
 pkgname=nodejs
-pkgver=23.0.0
+pkgver=23.1.0
 pkgrel=1
 pkgdesc='Evented I/O for V8 javascript'
 arch=('x86_64')
@@ -34,7 +34,7 @@ makedepends=(
 optdepends=('npm: nodejs package manager')
 options=(!lto)
 source=("git+https://github.com/nodejs/node.git#tag=v$pkgver?signed")
-sha512sums=('07dea3c635abf73d8551c9d8b026513c4bb25ac6db30ae3e62099f96a7e76548d41636a344db534c33eec77e8ea7cb7835abac9c88bdf8c08c774a28b104d2b7')
+sha512sums=('360f9bb034cee992b7f7e3b067db84653ce9b4365ec2a993da7a1fb4c44af5ac561fc7090f107edf1c043a383cf4667ca082395a36ba84eedeb91e82e90c6536')
 validpgpkeys=(
   '8FCCA13FEF1D0C2E91008E09770F7A9A5AE15600' # Michaël Zasso (Targos) <targos@protonmail.com>
   '890C08DB8579162FEE0DF9DB8BEAB4DFCF555EF4' # RafaelGSS <rafael.nunu@hotmail.com>
@@ -69,7 +69,7 @@ build() {
 
 check() {
   cd node
-  make test || :
+  make test
 }
 
 package() {
