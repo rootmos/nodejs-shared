@@ -1,6 +1,6 @@
 pkgname=nodejs-shared
 provides=('nodejs')
-pkgver=23.8.0
+pkgver=23.9.0
 pkgrel=1
 pkgdesc='Evented I/O for V8 javascript ("Current" release)'
 arch=('x86_64')
@@ -30,7 +30,7 @@ makedepends=(
 optdepends=('npm: nodejs package manager')
 options=('!lto')
 source=("git+https://github.com/nodejs/node.git#tag=v$pkgver?signed")
-sha512sums=('4779e250ac75e0ce35dc3d4d322a9b95007ad85b69fc9a3499714bb4a5e07dda3fc264707c251eb8e45fc09af48c493f1f4f80162e85161c70087bbf42f7440d')
+sha512sums=('65e60064edfc254ab0bfd4b6dd6b6a5047bbf2e2c1e69f2c120f4b5c8f8274493c971db47b9646bbb4bcd10a08831f0a6ec21ffe82d5382095ff2d2b7f811d77')
 validpgpkeys=(
   '8FCCA13FEF1D0C2E91008E09770F7A9A5AE15600' # Michaël Zasso (Targos) <targos@protonmail.com>
   '890C08DB8579162FEE0DF9DB8BEAB4DFCF555EF4' # RafaelGSS <rafael.nunu@hotmail.com>
@@ -38,11 +38,20 @@ validpgpkeys=(
   'C0D6248439F1D5604AAFFB4021D900FFDB233756' # Antoine du Hamel <duhamelantoine1995@gmail.com>
 )
 
-build() {
-  cd node
+
+# Deterministic transformation of the compiler flags.
+# Directly setting them only in build() does not work because in package(),
+# C{XX,}FLAGS gets reset to their original value and `make` then triggers
+# massive rebuilds.
+_set_flags() {
   # /usr/lib/libnode.so uses malloc_usable_size, which is incompatible with fortification level 3
-  export CFLAGS="${CFLAGS/_FORTIFY_SOURCE=3/_FORTIFY_SOURCE=2}"
-  export CXXFLAGS="${CXXFLAGS/_FORTIFY_SOURCE=3/_FORTIFY_SOURCE=2}"
+  CFLAGS="${CFLAGS/_FORTIFY_SOURCE=3/_FORTIFY_SOURCE=2}"
+  CXXFLAGS="${CXXFLAGS/_FORTIFY_SOURCE=3/_FORTIFY_SOURCE=2}"
+}
+
+build() {
+  _set_flags
+  cd node
 
   ./configure --shared \
     --prefix=/usr \
@@ -66,11 +75,13 @@ build() {
 }
 
 check() {
+  _set_flags
   cd node
   make test-only
 }
 
 package() {
+  _set_flags
   cd node
   make DESTDIR="$pkgdir" install
   install -Dm644 LICENSE -t "$pkgdir"/usr/share/licenses/nodejs/
