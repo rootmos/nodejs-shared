@@ -1,6 +1,6 @@
 pkgname=nodejs-shared
 provides=('nodejs')
-pkgver=24.2.0
+pkgver=24.4.1
 pkgrel=1
 pkgdesc='Evented I/O for V8 javascript ("Current" release)'
 arch=('x86_64')
@@ -30,7 +30,7 @@ makedepends=(
 optdepends=('npm: nodejs package manager')
 options=('!lto')
 source=("git+https://github.com/nodejs/node.git#tag=v$pkgver?signed")
-sha512sums=('f46ae0ae953642f4fe88b961c3c128a6bf56501210de2f9dd4cbb703c8685b8599021d450197797a3e9dc3465992a33cd77708472f4ea8031d96e9b7da21fe2c')
+sha512sums=('52fa58a2987acd7eb2f4f975f9aaf841bfa37a94b9266ecdbe44abab641e5e739b54970ff9db01526f361ea2f796e512652ffeac9dd02fbf71f92d406345d3de')
 validpgpkeys=(
   '8FCCA13FEF1D0C2E91008E09770F7A9A5AE15600' # Michaël Zasso (Targos) <targos@protonmail.com>
   '890C08DB8579162FEE0DF9DB8BEAB4DFCF555EF4' # RafaelGSS <rafael.nunu@hotmail.com>
@@ -42,6 +42,12 @@ _set_flags() {
   # /usr/lib/libnode.so uses malloc_usable_size, which is incompatible with fortification level 3
   CFLAGS="${CFLAGS/_FORTIFY_SOURCE=3/_FORTIFY_SOURCE=2}"
   CXXFLAGS="${CXXFLAGS/_FORTIFY_SOURCE=3/_FORTIFY_SOURCE=2}"
+}
+
+prepare() {
+  cd node
+  # https://github.com/nodejs/node/issues/59029
+  git cherry-pick -n 049664bbdc421c63b2145c85a18c64d184b40aa5
 }
 
 build() {
