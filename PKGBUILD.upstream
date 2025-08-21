@@ -9,8 +9,8 @@
 # Contributor: TIanyi Cui <tianyicui@gmail.com>
 
 pkgname=nodejs
-pkgver=24.4.1
-pkgrel=2
+pkgver=24.6.0
+pkgrel=1
 pkgdesc='Evented I/O for V8 javascript ("Current" release)'
 arch=('x86_64')
 url='https://nodejs.org/'
@@ -39,24 +39,19 @@ makedepends=(
 optdepends=('npm: nodejs package manager')
 options=('!lto')
 source=("git+https://github.com/nodejs/node.git#tag=v$pkgver?signed")
-sha512sums=('52fa58a2987acd7eb2f4f975f9aaf841bfa37a94b9266ecdbe44abab641e5e739b54970ff9db01526f361ea2f796e512652ffeac9dd02fbf71f92d406345d3de')
+sha512sums=('288b819aa331c2a59a5c07f1eef4be5a647c0363b340afc29504b254aacb86e4a23a2600e32ef87c4aa9e6d29c0023583a159de9853c047129ffb94489c66a68')
 validpgpkeys=(
   '8FCCA13FEF1D0C2E91008E09770F7A9A5AE15600' # Michaël Zasso (Targos) <targos@protonmail.com>
   '890C08DB8579162FEE0DF9DB8BEAB4DFCF555EF4' # RafaelGSS <rafael.nunu@hotmail.com>
   'C82FA3AE1CBEDC6BE46B9360C43CEC45C17AB93C' # Richard Lau <rlau@redhat.com>
   'C0D6248439F1D5604AAFFB4021D900FFDB233756' # Antoine du Hamel <duhamelantoine1995@gmail.com>
+  '5BE8A3F6C8A5C01D106C0AD820B1A390B168D356' # Antoine du Hamel <antoine.duhamel@rosa.be>
 )
 
 _set_flags() {
   # /usr/lib/libnode.so uses malloc_usable_size, which is incompatible with fortification level 3
   CFLAGS="${CFLAGS/_FORTIFY_SOURCE=3/_FORTIFY_SOURCE=2}"
   CXXFLAGS="${CXXFLAGS/_FORTIFY_SOURCE=3/_FORTIFY_SOURCE=2}"
-}
-
-prepare() {
-  cd node
-  # https://github.com/nodejs/node/issues/59029
-  git cherry-pick -n 049664bbdc421c63b2145c85a18c64d184b40aa5
 }
 
 build() {
