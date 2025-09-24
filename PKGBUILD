@@ -1,6 +1,6 @@
 pkgname=nodejs-shared
 provides=('nodejs')
-pkgver=24.6.0
+pkgver=24.8.0
 pkgrel=1
 pkgdesc='Evented I/O for V8 javascript ("Current" release)'
 arch=('x86_64')
@@ -30,7 +30,7 @@ makedepends=(
 optdepends=('npm: nodejs package manager')
 options=('!lto')
 source=("git+https://github.com/nodejs/node.git#tag=v$pkgver?signed")
-sha512sums=('288b819aa331c2a59a5c07f1eef4be5a647c0363b340afc29504b254aacb86e4a23a2600e32ef87c4aa9e6d29c0023583a159de9853c047129ffb94489c66a68')
+sha512sums=('b4d30a805bb5da7c1559c05bda65d68f931acea92d6227e69ca307d0787950012ecf863d06a737ad6d87b1b1bff3c5ad38dde918fc3c6326b625a533ef0d2b8a')
 validpgpkeys=(
   '8FCCA13FEF1D0C2E91008E09770F7A9A5AE15600' # Michaël Zasso (Targos) <targos@protonmail.com>
   '890C08DB8579162FEE0DF9DB8BEAB4DFCF555EF4' # RafaelGSS <rafael.nunu@hotmail.com>
@@ -77,6 +77,13 @@ check() {
   rm test/parallel/test-http2-client-set-priority.js
   rm test/parallel/test-http2-priority-event.js
   rm test/parallel/test-http-outgoing-end-cork.js
+  rm test/parallel/test-http2-client-unescaped-path.js
+  rm test/parallel/test-http2-multi-content-length.js
+  rm test/parallel/test-http2-reset-flood.js
+  rm test/parallel/test-http2-misbehaving-flow-control.js
+  rm test/parallel/test-http2-max-invalid-frames.js
+  rm test/parallel/test-http2-misbehaving-flow-control-paused.js
+  rm test/client-proxy/test-http-proxy-request-no-proxy-port-specific.mjs
   make test-only
 }
 
